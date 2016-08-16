@@ -33,19 +33,50 @@ FROM
     INNER JOIN estado e ON (c.sigla_estado = e.sigla) 
 GROUP BY e.nome, e.sigla;
 
+
 ---------------------------------------------------------------
 
 
--- 3. mostrar as cidades com mais que 5 regioes
+-- 3. Cidades com mais de 5 localidades
 -- Resposta 1:
 SELECT c.id, c.nome, COUNT(r.cep) 
 FROM regiao r, cidade c 
 WHERE r.cidade_id = c.id 
 GROUP BY c.id, c.nome HAVING COUNT(r.cep) > 5 
-ORDER BY c.nome 
+ORDER BY c.nome; 
+
+--Resposta 2:
+SELECT c.id, c.nome, COUNT(r.cep) 
+FROM regiao r JOIN cidade c ON (r.cidade_id = c.id)
+GROUP BY c.id, c.nome HAVING COUNT(r.cep) > 5 
+ORDER BY c.nome; 
 
 
+---------------------------------------------------------------
+
+--4. Maior ID da tabela de cidades
+-- Resposta:
+ SELECT MAX(c.id) 
+ FROM cidade c;
 
 
+---------------------------------------------------------------
+
+--5. Estados com mais de 5 localidades
+-- Resposta 1:
+SELECT e.sigla, e.nome, COUNT(r.cep) 
+FROM regiao r, cidade c, estado e 
+WHERE r.cidade_id = c.id
+	AND c.sigla_estado = e.sigla 
+GROUP BY e.sigla, e.nome HAVING COUNT(r.cep) > 5 
+ORDER BY e.nome; 
+
+-- Resposta 2:
+SELECT e.sigla, e.nome, COUNT(r.cep) 
+FROM regiao r JOIN cidade c ON (r.cidade_id = c.id)
+			  JOIN estado e ON (c.sigla_estado = e.sigla)
+GROUP BY e.sigla, e.nome HAVING COUNT(r.cep) > 5 
+ORDER BY e.nome; 
 
 
+---------------------------------------------------------------
