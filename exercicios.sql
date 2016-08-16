@@ -80,3 +80,21 @@ ORDER BY e.nome;
 
 
 ---------------------------------------------------------------
+
+--6.
+-- Resposta 1:
+SELECT e.sigla, e.nome, AVG(r.cep)
+FROM regiao r, cidade c, estado e 
+WHERE r.cidade_id = c.id AND c.sigla_estado = e.sigla 
+GROUP BY e.sigla, e.nome 
+ORDER BY e.nome;
+
+-- Resposta 2:
+SELECT e.sigla, e.nome, AVG(r.cep)
+FROM regiao r JOIN cidade c ON (r.cidade_id = c.id) 
+			  JOIN estado e ON (c.sigla_estado = e.sigla)
+GROUP BY e.sigla, e.nome
+ORDER BY e.nome;
+
+
+---------------------------------------------------------------
